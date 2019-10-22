@@ -3,6 +3,8 @@ package company;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -130,6 +132,27 @@ public class FileIni {
             }
         });
     }
+
+    public BigInteger getBigIntegerValue(String sectionName, String fieldName) {
+        return getValue(sectionName, fieldName, (String string) -> {
+            try {
+                return new BigInteger(string);
+            } catch (NumberFormatException e) {
+                throw new IniFormatException("Incorrect value type " + e.getMessage().toLowerCase());
+            }
+        });
+    }
+
+    public BigDecimal getBigDecimalValue(String sectionName, String fieldName) {
+        return getValue(sectionName, fieldName, (String string) -> {
+            try {
+                return new BigDecimal(string);
+            } catch (NumberFormatException e) {
+                throw new IniFormatException("Incorrect value type " + e.getMessage().toLowerCase());
+            }
+        });
+    }
+    
     /** 
      * @return String
      */
