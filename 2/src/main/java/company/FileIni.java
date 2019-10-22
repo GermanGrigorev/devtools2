@@ -3,10 +3,11 @@ package company;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 public class FileIni {
     private ArrayList<Section> sections;
@@ -117,7 +118,17 @@ public class FileIni {
             } catch (NumberFormatException e) {
                 throw new IniFormatException("Incorrect value type " + e.getMessage().toLowerCase());
             }
-        })
+        });
+    }
+
+    public URL getUrlValue(String sectionName, String fieldName) {
+        return getValue(sectionName, fieldName, (String string) -> {
+            try {
+                return new URL(string);
+            } catch (NumberFormatException | MalformedURLException e) {
+                throw new IniFormatException("Incorrect value type " + e.getMessage().toLowerCase());
+            }
+        });
     }
     /** 
      * @return String
