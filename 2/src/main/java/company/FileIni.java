@@ -141,6 +141,17 @@ public class FileIni {
             }
         });
     }
+
+    public BigDecimal getBigDecimalValue(String sectionName, String fieldName) {
+        return getValue(sectionName, fieldName, (String string) -> {
+            try {
+                return new BigDecimal(string);
+            } catch (NumberFormatException e) {
+                throw new IniFormatException("Incorrect value type " + e.getMessage().toLowerCase());
+            }
+        });
+    }
+    
     /** 
      * @return String
      */
